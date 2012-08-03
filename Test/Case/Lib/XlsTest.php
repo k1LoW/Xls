@@ -30,17 +30,15 @@ class XlsTestCase extends CakeTestCase{
         $this->outputFilePath = TMP . 'tests' . DS . 'output.xlsx';
         $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $this->xls = new Xls($this->inputFilePath);
-        // jpn: col / row / sheetを指定してセット可能
-        $this->xls->setValue('testset', array('col' => 'B',
+        $this->xls = new Xls();
+        $result = $this->xls->read($this->inputFilePath)
+            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
                                         'row' => '10',
-                                        ));
-
-        // jpn: 文字列置換でセット可能
-        $this->xls->set(array('Sheet1' => 'シートタイトル',
+                                        ))
+            ->set(array('Sheet1' => 'シートタイトル', // jpn: 文字列置換でセット可能
                         'test' => 'replaced',
-                        '4' => 5));
-        $result = $this->xls->write($this->outputFilePath);
+                        '4' => 5))
+            ->write($this->outputFilePath);
         $this->assertTrue($result);
         pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
@@ -75,7 +73,7 @@ class XlsTestCase extends CakeTestCase{
     /**
      * testSetValueManyExcel2007
      *
-     * @param 
+     * @param
      */
     public function testSetValueManyExcel2007(){
         $fileName = 'testbook.xlsx';
@@ -101,7 +99,7 @@ class XlsTestCase extends CakeTestCase{
     /**
      * testSetValueManyExcel5
      *
-     * @param 
+     * @param
      */
     public function testSetValueManyExcel5(){
         $fileName = 'testbook.xls';

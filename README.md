@@ -6,7 +6,7 @@ PHPExcel wrapper for CakePHP
 
 ## Install
 
-First, Install 'Xls' by [recipe.php](https://github.com/k1LoW/recipe) , and set `CakePlugin::load('Xls');`
+Install 'Xls' by [recipe.php](https://github.com/k1LoW/recipe) , and set `CakePlugin::load('Xls');`
 
 ## Requirement
 

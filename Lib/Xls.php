@@ -37,12 +37,12 @@ class Xls{
     /**
      * read
      *
-     * @param $filePath
      */
     public function read($filePath){
         $xlsReader = PHPExcel_IOFactory::createReaderForFile($filePath);
         $this->type = preg_replace('/^.+_/', '', get_class($xlsReader));
         $this->xls = $xlsReader->load($filePath);
+        return $this;
     }
 
     /**
@@ -57,6 +57,7 @@ class Xls{
         } else {
             $this->data[$key] = $value;
         }
+        return $this;
     }
 
     /**
@@ -100,13 +101,23 @@ class Xls{
 
         $xlsWriter = PHPExcel_IOFactory::createWriter($this->xls, $this->type);
         $xlsWriter->save($outputFilePath);
-        return file_exists($outputFilePath);
+        if(!file_exists($outputFilePath)) {
+            throw new Exception();
+        }
+        return true;
+    }
+
+    /**
+     * output
+     * Output xls with header
+     *
+     */
+    public function output(){
     }
 
     /**
      * setValue
      *
-     * @param $value
      */
     public function setValue($value, $option = array('col' => 'A',
                                                      'row' => '1',
@@ -121,29 +132,13 @@ class Xls{
         }
         $this->xls->getActiveSheetIndex($option['sheet']);
         $sheet = $this->xls->getActiveSheet();
-        return $sheet->setCellValueByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'], $value);
-    }
-
-    /**
-     * __replace
-     *
-     * @param $value
-     */
-    private function __replace($value){
-        if (empty($value)) {
-            return false;
-        }
-        if (array_key_exists((string)$value, $this->data)) {
-            return $this->data[$value];
-        } else {
-            return false;
-        }
+        $sheet->setCellValueByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'], $value);
+        return $this;
     }
 
     /**
      * alphabetToNumber
      *
-     * @param $alphabet
      */
     public static function alphabetToNumber($value){
         if (is_numeric($value)) {
@@ -156,5 +151,20 @@ class Xls{
             $number = ($n + 1) * $alphabet[$str];
         }
         return $number;
+    }
+
+    /**
+     * __replace
+     *
+     */
+    private function __replace($value){
+        if (empty($value)) {
+            return false;
+        }
+        if (array_key_exists((string)$value, $this->data)) {
+            return $this->data[$value];
+        } else {
+            return false;
+        }
     }
 }
