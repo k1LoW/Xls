@@ -1,6 +1,6 @@
 <?php
 App::uses('Xls', 'Xls.Lib');
-class ExcelTestCase extends CakeTestCase{
+class XlsTestCase extends CakeTestCase{
 
     /**
      * setUp
@@ -15,6 +15,9 @@ class ExcelTestCase extends CakeTestCase{
      *
      */
     public function tearDown(){
+        unset($this->xls);
+        @unlink($this->inputFilePath);
+        @unlink($this->outputFilePath);
     }
 
     /**
@@ -23,26 +26,24 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testWriteExcel2007(){
         $fileName = 'testbook.xlsx';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'output.xlsx';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'output.xlsx';
+        $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $xls = new Xls($inputFilePath);
+        $this->xls = new Xls($this->inputFilePath);
         // jpn: col / row / sheetを指定してセット可能
-        $xls->setValue('testset', array('col' => 'B',
+        $this->xls->setValue('testset', array('col' => 'B',
                                         'row' => '10',
                                         ));
 
         // jpn: 文字列置換でセット可能
-        $xls->set(array('Sheet1' => 'シートタイトル',
+        $this->xls->set(array('Sheet1' => 'シートタイトル',
                         'test' => 'replaced',
                         '4' => 5));
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
@@ -51,26 +52,24 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testWriteExcel5(){
         $fileName = 'testbook.xls';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'output.xls';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'output.xls';
+        $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $xls = new Xls($inputFilePath);
+        $this->xls = new Xls($this->inputFilePath);
         // jpn: col / row / sheetを指定してセット可能
-        $xls->setValue('testset', array('col' => 'B',
+        $this->xls->setValue('testset', array('col' => 'B',
                                         'row' => '10',
                                         ));
 
         // jpn: 文字列置換でセット可能
-        $xls->set(array('Sheet1' => 'シートタイトル',
+        $this->xls->set(array('Sheet1' => 'シートタイトル',
                         'test' => 'replaced',
                         '4' => 5));
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
@@ -80,25 +79,23 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testSetValueManyExcel2007(){
         $fileName = 'testbook.xlsx';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'outputmany.xlsx';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputmany.xlsx';
+        $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $xls = new Xls($inputFilePath);
+        $this->xls = new Xls($this->inputFilePath);
 
         for ($c = 0; $c < 100; $c++) {
             for ($r = 1; $r < 100; $r++) {
-                $xls->setValue('testset', array('col' => $c,
+                $this->xls->setValue('testset', array('col' => $c,
                                                 'row' => $r,
                                         ));
             }
         }
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
@@ -108,25 +105,23 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testSetValueManyExcel5(){
         $fileName = 'testbook.xls';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'outputmany.xls';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputmany.xls';
+        $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $xls = new Xls($inputFilePath);
+        $this->xls = new Xls($this->inputFilePath);
 
         for ($c = 0; $c < 100; $c++) {
             for ($r = 1; $r < 100; $r++) {
-                $xls->setValue('testset', array('col' => $c,
+                $this->xls->setValue('testset', array('col' => $c,
                                                 'row' => $r,
                                         ));
             }
         }
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
@@ -135,23 +130,21 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testSetManyExcel2007(){
         $fileName = 'testbookmany.xlsx';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'outputsetmany.xlsx';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputsetmany.xlsx';
+        $this->_setTestFile($fileName, $this->inputFilePath);
 
-        $xls = new Xls($inputFilePath);
-        for ($c = 'a'; $xls::alphabetToNumber($c) < 100; $c++) {
+        $this->xls = new Xls($this->inputFilePath);
+        for ($c = 'a'; Xls::alphabetToNumber($c) < 100; $c++) {
             for($r = 1; $r < 100; $r++) {
-                $xls->set('$' . strtoupper($c) . '$' . $r, 'replaced');
+                $this->xls->set('$' . strtoupper($c) . '$' . $r, 'replaced');
             }
         }
 
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
@@ -160,22 +153,20 @@ class ExcelTestCase extends CakeTestCase{
      */
     public function testSetManyExcel5(){
         $fileName = 'testbookmany.xls';
-        $inputFilePath = TMP . 'tests' . DS . $fileName;
-        $outputFilePath = TMP . 'tests' . DS . 'outputsetmany.xls';
-        @unlink($outputFilePath);
-        $this->_setTestFile($fileName, $inputFilePath);
-        $xls = new Xls($inputFilePath);
+        $this->inputFilePath = TMP . 'tests' . DS . $fileName;
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputsetmany.xls';
+        $this->_setTestFile($fileName, $this->inputFilePath);
+        $this->xls = new Xls($this->inputFilePath);
         for ($c = 'a'; Xls::alphabetToNumber($c) < 100; $c++) {
             for($r = 1; $r < 100; $r++) {
-                $xls->set('$' . strtoupper($c) . '$' . $r, 'replaced');
+                $this->xls->set('$' . strtoupper($c) . '$' . $r, 'replaced');
             }
         }
 
-        $result = $xls->write($outputFilePath);
+        $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
-        pr('Look ' . $outputFilePath);
+        pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-        unset($xls);
     }
 
     /**
