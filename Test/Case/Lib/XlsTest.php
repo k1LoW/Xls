@@ -37,7 +37,7 @@ class XlsTestCase extends CakeTestCase{
                                                    'row' => '10',
                                                    'sheet' => 2,
                                                    ))
-            ->setValue('testset_with_border', array('col' => 'C', // jpn: col / row / sheetを指定してセット可能
+            ->setValue('testset_with_border', array('col' => 'C', // jpn: borderを指定してセット可能
                                                     'row' => '10',
                                                     'border' => array('top' => PHPExcel_Style_Border::BORDER_THICK,
                                                                       'right' => PHPExcel_Style_Border::BORDER_MEDIUM,
@@ -45,6 +45,18 @@ class XlsTestCase extends CakeTestCase{
                                                                       'bottom' => PHPExcel_Style_Border::BORDER_DOUBLE,
                                                                       ),
                                                     ))
+            ->setValue('testset_with_border', array('col' => 'E',
+                                                    'row' => '10',
+                                                    'border' => PHPExcel_Style_Border::BORDER_THICK,  // jpn: borderを一括指定可能
+                                                    ))
+            ->setValue('testset_with_color', array('col' => 'F', // jpn: colorを指定可能
+                                                   'row' => '10',
+                                                   'color' => PHPExcel_Style_Color::COLOR_BLUE,
+                                                   ))
+            ->setValue('testset_with_backgroud_color', array('col' => 'G', // jpn: backgroundColorを指定可能
+                                                             'row' => '10',
+                                                             'backgroundColor' => PHPExcel_Style_Color::COLOR_YELLOW,
+                                                             ))
             ->set(array('Sheet1' => 'シートタイトル', // jpn: 文字列置換でセット可能
                         'test' => 'replaced',
                         '4' => 5))
@@ -73,7 +85,7 @@ class XlsTestCase extends CakeTestCase{
                                                    'row' => '10',
                                                    'sheet' => 2,
                                                    ))
-            ->setValue('testset_with_border', array('col' => 'C', // jpn: col / row / sheetを指定してセット可能
+            ->setValue('testset_with_border', array('col' => 'C', // jpn: borderを指定可能
                                                     'row' => '10',
                                                     'border' => array('top' => PHPExcel_Style_Border::BORDER_THICK,
                                                                       'right' => PHPExcel_Style_Border::BORDER_MEDIUM,
@@ -81,6 +93,18 @@ class XlsTestCase extends CakeTestCase{
                                                                       'bottom' => PHPExcel_Style_Border::BORDER_DOUBLE,
                                                                       ),
                                                     ))
+            ->setValue('testset_with_border', array('col' => 'E',
+                                                    'row' => '10',
+                                                    'border' => PHPExcel_Style_Border::BORDER_THICK,  // jpn: borderを一括指定可能
+                                                    ))
+            ->setValue('testset_with_color', array('col' => 'F', // jpn: colorを指定可能
+                                                   'row' => '10',
+                                                   'color' => PHPExcel_Style_Color::COLOR_BLUE,
+                                                   ))
+            ->setValue('testset_with_backgroud_color', array('col' => 'G', // jpn: backgroundColorを指定可能
+                                                             'row' => '10',
+                                                             'backgroundColor' => PHPExcel_Style_Color::COLOR_YELLOW,
+                                                             ))
             ->set(array('Sheet1' => 'シートタイトル',         // jpn: 文字列置換でセット可能
                         'test' => 'replaced',
                         '4' => 5));

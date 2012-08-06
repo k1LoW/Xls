@@ -149,8 +149,32 @@ class Xls{
                         $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getBorders()->{'get' . ucfirst($position)}()->setBorderStyle($option['border'][$position]);
                     }
                 }
+            } else {
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getBorders()->getAllBorders()->setBorderStyle($option['border']);
             }
         }
+
+        // color
+        if(array_key_exists('color', $option)) {
+            if (strlen($option['color']) === 8) {
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->getColor()->setARGB($option['color']);
+            } elseif (strlen($option['color']) === 6) {
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->getColor()->setRGB($option['color']);
+            }
+        }
+
+        // backgroundColor / backgroundType
+        if(array_key_exists('backgroundColor', $option)) {
+            $type = empty($option['backgroundType']) ? PHPExcel_Style_Fill::FILL_SOLID : $option['backgroundType'];
+            if (strlen($option['backgroundColor']) === 8) {
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFill()->setFillType($type);
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFill()->getStartColor()->setARGB($option['backgroundColor']);
+            } elseif (strlen($option['backgroundColor']) === 6) {
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFill()->setFillType($type);
+                $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFill()->getStartColor()->setRGB($option['backgroundColor']);
+            }
+        }
+
         return $this;
     }
 
