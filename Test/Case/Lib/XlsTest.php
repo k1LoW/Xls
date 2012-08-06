@@ -248,6 +248,30 @@ class XlsTestCase extends CakeTestCase{
     }
 
     /**
+     * testAlphabetToNumber
+     *
+     * @param $arg
+     */
+    public function testAlphabetToNumber(){
+        $result = Xls::alphabetToNumber('A');
+        $this->assertIdentical($result, 0);
+        $result = Xls::alphabetToNumber('AA');
+        $this->assertIdentical($result, 26);
+        $result = Xls::alphabetToNumber('AM');
+        $this->assertIdentical($result, 38);
+        $result = Xls::alphabetToNumber('AZ');
+        $this->assertIdentical($result, 51);
+        $result = Xls::alphabetToNumber('BA');
+        $this->assertIdentical($result, 52);
+        $result = Xls::alphabetToNumber('DL');
+        $this->assertIdentical($result, 115);
+        $result = Xls::alphabetToNumber('ZZ');
+        $this->assertIdentical($result, 701);
+        $result = Xls::alphabetToNumber('AAA');
+        $this->assertIdentical($result, 702);
+    }
+
+    /**
      * _setTestFile
      *
      * @return

@@ -116,7 +116,18 @@ class Xls{
      * Output xls with header
      *
      */
-    public function output(){
+    public function output($filename = 'output.xlsx', $data = array()){
+        $outputFilePath = TMP . uniqid('xls_', true) . $filename;
+        $this->write($outputFilePath, $data);
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+        header("Pragma: public");
+        ob_clean();
+        flush();
+        echo file_get_contents($outputFilePath);
+        exit;
     }
 
     /**
@@ -187,10 +198,14 @@ class Xls{
             return $value;
         }
         $alphabet = array_flip(str_split('abcdefghijklmnopqrstuvwxyz'));
-        $strArray = str_split(strtolower($value));
+        $strArray = array_reverse(str_split(strtolower($value)));
         $number = 0;
         foreach ($strArray as $n => $str) {
-            $number = ($n + 1) * $alphabet[$str];
+            if ($n == 0) {
+                $number += $alphabet[$str];
+            } else {
+                $number += ($alphabet[$str] + 1) * pow(26, $n);
+            }
         }
         return $number;
     }
