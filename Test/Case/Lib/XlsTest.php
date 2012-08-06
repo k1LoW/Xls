@@ -33,6 +33,18 @@ class XlsTestCase extends CakeTestCase{
             ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
                                         'row' => '10',
                                         ))
+            ->setValue('testset_with_sheet', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                                   'row' => '10',
+                                                   'sheet' => 2,
+                                                   ))
+            ->setValue('testset_with_border', array('col' => 'C', // jpn: col / row / sheetを指定してセット可能
+                                                    'row' => '10',
+                                                    'border' => array('top' => PHPExcel_Style_Border::BORDER_THICK,
+                                                                      'right' => PHPExcel_Style_Border::BORDER_MEDIUM,
+                                                                      'left' => PHPExcel_Style_Border::BORDER_THIN,
+                                                                      'bottom' => PHPExcel_Style_Border::BORDER_DOUBLE,
+                                                                      ),
+                                                    ))
             ->set(array('Sheet1' => 'シートタイトル', // jpn: 文字列置換でセット可能
                         'test' => 'replaced',
                         '4' => 5))
@@ -54,15 +66,61 @@ class XlsTestCase extends CakeTestCase{
 
         $this->xls = new Xls($this->inputFilePath);
         // jpn: col / row / sheetを指定してセット可能
-        $this->xls->setValue('testset', array('col' => 'B',
+        $this->xls->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
                                               'row' => '10',
-                                              ));
-
-        // jpn: 文字列置換でセット可能
-        $this->xls->set(array('Sheet1' => 'シートタイトル',
-                              'test' => 'replaced',
-                              '4' => 5));
+                                              ))
+            ->setValue('testset_with_sheet', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                                   'row' => '10',
+                                                   'sheet' => 2,
+                                                   ))
+            ->setValue('testset_with_border', array('col' => 'C', // jpn: col / row / sheetを指定してセット可能
+                                                    'row' => '10',
+                                                    'border' => array('top' => PHPExcel_Style_Border::BORDER_THICK,
+                                                                      'right' => PHPExcel_Style_Border::BORDER_MEDIUM,
+                                                                      'left' => PHPExcel_Style_Border::BORDER_THIN,
+                                                                      'bottom' => PHPExcel_Style_Border::BORDER_DOUBLE,
+                                                                      ),
+                                                    ))
+            ->set(array('Sheet1' => 'シートタイトル',         // jpn: 文字列置換でセット可能
+                        'test' => 'replaced',
+                        '4' => 5));
         $result = $this->xls->write($this->outputFilePath);
+        $this->assertTrue($result);
+        pr('Look ' . $this->outputFilePath);
+        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
+    }
+
+    /**
+     * testNewExcel2007
+     *
+     */
+    public function testNewExcel2007(){
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xlsx';
+
+        $this->xls = new Xls();
+        $result = $this->xls
+            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                        'row' => '10',
+                                        ))
+            ->write($this->outputFilePath);
+        $this->assertTrue($result);
+        pr('Look ' . $this->outputFilePath);
+        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
+    }
+
+    /**
+     * testNewExcel5
+     *
+     */
+    public function testNewExcel5(){
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xls';
+
+        $this->xls = new Xls();
+        $result = $this->xls
+            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                        'row' => '10',
+                                        ))
+            ->write($this->outputFilePath);
         $this->assertTrue($result);
         pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
@@ -160,42 +218,6 @@ class XlsTestCase extends CakeTestCase{
         }
 
         $result = $this->xls->write($this->outputFilePath);
-        $this->assertTrue($result);
-        pr('Look ' . $this->outputFilePath);
-        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-    }
-
-    /**
-     * testNewExcel2007
-     *
-     */
-    public function testNewExcel2007(){
-        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xlsx';
-
-        $this->xls = new Xls();
-        $result = $this->xls
-            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
-                                        'row' => '10',
-                                        ))
-            ->write($this->outputFilePath);
-        $this->assertTrue($result);
-        pr('Look ' . $this->outputFilePath);
-        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
-    }
-
-    /**
-     * testNewExcel5
-     *
-     */
-    public function testNewExcel5(){
-        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xls';
-
-        $this->xls = new Xls();
-        $result = $this->xls
-            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
-                                        'row' => '10',
-                                        ))
-            ->write($this->outputFilePath);
         $this->assertTrue($result);
         pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");

@@ -137,9 +137,20 @@ class Xls{
         if (empty($this->xls)) {
             $this->xls = new PHPExcel();
         }
-        $this->xls->getActiveSheetIndex($option['sheet']);
+        $this->xls->setActiveSheetIndex($option['sheet']);
         $sheet = $this->xls->getActiveSheet();
         $sheet->setCellValueByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'], $value);
+
+        // border
+        if(array_key_exists('border', $option)) {
+            if (is_array($option['border'])) {
+                foreach (array('top', 'right', 'left', 'bottom') as $position) {
+                    if(array_key_exists($position, $option['border'])) {
+                        $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getBorders()->{'get' . ucfirst($position)}()->setBorderStyle($option['border'][$position]);
+                    }
+                }
+            }
+        }
         return $this;
     }
 
