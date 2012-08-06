@@ -99,6 +99,10 @@ class Xls{
             }
         }
 
+        if (empty($this->type)) {
+            $this->type = $this->__getType($outputFilePath);
+        }
+
         $xlsWriter = PHPExcel_IOFactory::createWriter($this->xls, $this->type);
         $xlsWriter->save($outputFilePath);
         if(!file_exists($outputFilePath)) {
@@ -130,6 +134,9 @@ class Xls{
         if(!array_key_exists('sheet', $option)) {
             $option['sheet'] = 0;
         }
+        if (empty($this->xls)) {
+            $this->xls = new PHPExcel();
+        }
         $this->xls->getActiveSheetIndex($option['sheet']);
         $sheet = $this->xls->getActiveSheet();
         $sheet->setCellValueByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'], $value);
@@ -151,6 +158,57 @@ class Xls{
             $number = ($n + 1) * $alphabet[$str];
         }
         return $number;
+    }
+
+    /**
+     * __getType
+     *
+     * @see IOFactory::createReaderForFile
+     */
+    private function __getType($filePath){
+        $pathinfo = pathinfo($filePath);
+
+        if (!isset($pathinfo['extension'])) {
+            return false;
+        }
+        switch (strtolower($pathinfo['extension'])) {
+                case 'xlsx':            //  Excel (OfficeOpenXML) Spreadsheet
+                case 'xlsm':            //  Excel (OfficeOpenXML) Macro Spreadsheet (macros will be discarded)
+                case 'xltx':            //  Excel (OfficeOpenXML) Template
+                case 'xltm':            //  Excel (OfficeOpenXML) Macro Template (macros will be discarded)
+                    $extensionType = 'Excel2007';
+                    break;
+                case 'xls':             //  Excel (BIFF) Spreadsheet
+                case 'xlt':             //  Excel (BIFF) Template
+                    $extensionType = 'Excel5';
+                    break;
+                case 'ods':             //  Open/Libre Offic Calc
+                case 'ots':             //  Open/Libre Offic Calc Template
+                    $extensionType = 'OOCalc';
+                    break;
+                case 'slk':
+                    $extensionType = 'SYLK';
+                    break;
+                case 'xml':             //  Excel 2003 SpreadSheetML
+                    $extensionType = 'Excel2003XML';
+                    break;
+                case 'gnumeric':
+                    $extensionType = 'Gnumeric';
+                    break;
+                case 'htm':
+                case 'html':
+                    $extensionType = 'HTML';
+                    break;
+                case 'csv':
+                    // Do nothing
+                    // We must not try to use CSV reader since it loads
+                    // all files including Excel files etc.
+                    return false;
+                    break;
+                default:
+                    break;
+        }
+        return $extensionType;
     }
 
     /**

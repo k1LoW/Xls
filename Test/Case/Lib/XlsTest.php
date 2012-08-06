@@ -16,8 +16,6 @@ class XlsTestCase extends CakeTestCase{
      */
     public function tearDown(){
         unset($this->xls);
-        @unlink($this->inputFilePath);
-        @unlink($this->outputFilePath);
     }
 
     /**
@@ -57,13 +55,13 @@ class XlsTestCase extends CakeTestCase{
         $this->xls = new Xls($this->inputFilePath);
         // jpn: col / row / sheetを指定してセット可能
         $this->xls->setValue('testset', array('col' => 'B',
-                                        'row' => '10',
-                                        ));
+                                              'row' => '10',
+                                              ));
 
         // jpn: 文字列置換でセット可能
         $this->xls->set(array('Sheet1' => 'シートタイトル',
-                        'test' => 'replaced',
-                        '4' => 5));
+                              'test' => 'replaced',
+                              '4' => 5));
         $result = $this->xls->write($this->outputFilePath);
         $this->assertTrue($result);
         pr('Look ' . $this->outputFilePath);
@@ -86,8 +84,8 @@ class XlsTestCase extends CakeTestCase{
         for ($c = 0; $c < 100; $c++) {
             for ($r = 1; $r < 100; $r++) {
                 $this->xls->setValue('testset', array('col' => $c,
-                                                'row' => $r,
-                                        ));
+                                                      'row' => $r,
+                                                      ));
             }
         }
         $result = $this->xls->write($this->outputFilePath);
@@ -112,8 +110,8 @@ class XlsTestCase extends CakeTestCase{
         for ($c = 0; $c < 100; $c++) {
             for ($r = 1; $r < 100; $r++) {
                 $this->xls->setValue('testset', array('col' => $c,
-                                                'row' => $r,
-                                        ));
+                                                      'row' => $r,
+                                                      ));
             }
         }
         $result = $this->xls->write($this->outputFilePath);
@@ -162,6 +160,42 @@ class XlsTestCase extends CakeTestCase{
         }
 
         $result = $this->xls->write($this->outputFilePath);
+        $this->assertTrue($result);
+        pr('Look ' . $this->outputFilePath);
+        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
+    }
+
+    /**
+     * testNewExcel2007
+     *
+     */
+    public function testNewExcel2007(){
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xlsx';
+
+        $this->xls = new Xls();
+        $result = $this->xls
+            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                        'row' => '10',
+                                        ))
+            ->write($this->outputFilePath);
+        $this->assertTrue($result);
+        pr('Look ' . $this->outputFilePath);
+        pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
+    }
+
+    /**
+     * testNewExcel5
+     *
+     */
+    public function testNewExcel5(){
+        $this->outputFilePath = TMP . 'tests' . DS . 'outputnew.xls';
+
+        $this->xls = new Xls();
+        $result = $this->xls
+            ->setValue('testset', array('col' => 'B', // jpn: col / row / sheetを指定してセット可能
+                                        'row' => '10',
+                                        ))
+            ->write($this->outputFilePath);
         $this->assertTrue($result);
         pr('Look ' . $this->outputFilePath);
         pr("Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB");
