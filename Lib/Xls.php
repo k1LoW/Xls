@@ -31,7 +31,7 @@ class Xls{
         if (!$this->xls) {
             return;
         }
-        call_user_func_array(array($this->xls, $method), $args);
+        return call_user_func_array(array($this->xls, $method), $args);
     }
 
     /**
