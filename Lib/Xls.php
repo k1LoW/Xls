@@ -119,11 +119,14 @@ class Xls{
     public function output($filename = 'output.xlsx', $data = array()){
         $outputFilePath = TMP . uniqid('xls_', true) . $filename;
         $this->write($outputFilePath, $data);
-        header("Content-type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
         header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Content-Transfer-Encoding: binary ");
         ob_clean();
         flush();
         echo file_get_contents($outputFilePath);
