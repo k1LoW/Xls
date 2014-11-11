@@ -1,0 +1,22 @@
+{
+    "name": "k1low/xls",
+    "description": "Xls: PHPExcel wrapper for CakePHP",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "excel"],
+    "homepage": "https://github.com/k1LoW/Xls",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ken'ichiro Oyama",
+            "homepage": "https://github.com/k1LoW",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "composer/installers": "*",
+        "phpoffice/phpexcel": "*"
+    },
+    "require-dev": {
+		"phpunit/phpunit": "3.7.*"
+	}
+}
