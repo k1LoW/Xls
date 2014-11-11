@@ -2,27 +2,27 @@ language: php
 
 php:
   - 5.3
+  - 5.4
+  - 5.5
 
 env:
-  - DB=mysql CAKEPHP=2.1.4
-  - DB=mysql CAKEPHP=2.2.7
-  - DB=mysql CAKEPHP=2.3.6
+  - DB=mysql CAKEPHP=2.3.10
+  - DB=mysql CAKEPHP=2.4.10
+  - DB=mysql CAKEPHP=2.5.5
 
 before_script:
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'DROP DATABASE IF EXISTS cakephp_test;'; fi"
+  - composer install --dev
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - wget https://github.com/cakephp/cakephp/tarball/$CAKEPHP -O cake.tar.gz
   - tar xf cake.tar.gz
   - mv cakephp-cakephp-* ./cakephp
-  - wget https://github.com/PHPOffice/PHPExcel/tarball/develop -O PHPExcel.tar.gz
-  - tar xf PHPExcel.tar.gz
-  - mv PHPOffice-PHPExcel-* ./cakephp/app/Vendor/PHPExcel
   - chmod -R 777 ./cakephp/app/tmp
   - echo "<?php
     App::build(array(
     'Plugin' => array('/home/travis/build/k1LoW/'),
     ));
     CakePlugin::loadAll();
+    ini_set('include_path',  '/home/travis/build/k1LoW/Xls/vendor/phpunit/phpunit' . PATH_SEPARATOR . ini_get('include_path'));
     " > cakephp/app/Config/bootstrap.php
   - echo "<?php
     class DATABASE_CONFIG {

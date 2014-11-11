@@ -1,15 +1,13 @@
 <?php
-App::import('Vendor', 'PHPExcel', array('file' => 'PHPExcel' . DS . 'Classes' . DS . 'PHPExcel.php'));
-App::import('Vendor', 'PHPExcel_IOFactory', array('file' => 'PHPExcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
-App::import('Vendor', 'PHPExcel_Cell_AdvancedValueBinder', array('file' => 'PHPExcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'Cell' . DS . 'AdvancedValueBinder.php'));
+if (file_exists(dirname(__FILE__) . '/../vendor/autoload.php')) {
+    require_once(dirname(__FILE__) . '/../vendor/autoload.php');
+}
 
 /**
+ * Xls
  *
- *
- *
- * @params
  */
-class Xls{
+class Xls {
 
     public $xls;
     private $data;
