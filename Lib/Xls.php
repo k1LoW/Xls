@@ -166,13 +166,23 @@ class Xls {
             }
         }
 
-        // color
+        // font
+        if(array_key_exists('font', $option)) {
+            $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->setName($option['font']);
+        }
+
+        // font color
         if(array_key_exists('color', $option)) {
             if (strlen($option['color']) === 8) {
                 $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->getColor()->setARGB($option['color']);
             } elseif (strlen($option['color']) === 6) {
                 $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->getColor()->setRGB($option['color']);
             }
+        }
+
+        // font size
+        if(array_key_exists('size', $option)) {
+            $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->setSize($option['size']);
         }
 
         // backgroundColor / backgroundType
