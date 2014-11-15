@@ -166,6 +166,25 @@ class Xls {
             }
         }
 
+        // align horizontal
+        if(array_key_exists('align', $option)) {
+            $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])
+                  ->getAlignment()
+                  ->setHorizontal($option['align']);
+        }
+        if(array_key_exists('hAlign', $option)) {
+            $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])
+                  ->getAlignment()
+                  ->setHorizontal($option['hAlign']);
+        }
+
+        // align vertical
+        if(array_key_exists('vAlign', $option)) {
+            $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])
+                  ->getAlignment()
+                  ->setVertical($option['vAlign']);
+        }
+
         // font
         if(array_key_exists('font', $option)) {
             $sheet->getStyleByColumnAndRow(self::alphabetToNumber($option['col']), $option['row'])->getFont()->setName($option['font']);
